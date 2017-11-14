@@ -22,7 +22,7 @@ plt.plot(observation_times, continuum.to(mean_flux.unit), linestyle='--', marker
 plt.plot(observation_times, emission_line.to(mean_flux.unit), linestyle='--', marker='o', label='emission_line')
 plt.plot(observation_times, continuum_emission_line.to(mean_flux.unit), linestyle='--', marker='o',
          label='continuum + emission_line')
-for i in np.arange(0, plt.xlim()[1], lag.value):
+for i in np.arange(plt.xlim()[0], plt.xlim()[1], lag.value):
     plt.axvline(i, linestyle=':')
 plt.legend()
 plt.ylabel('flux / {}'.format(mean_flux.unit))
