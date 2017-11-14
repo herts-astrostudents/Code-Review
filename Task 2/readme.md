@@ -37,3 +37,6 @@ light curve.
 # Coding
 1. Write your solution inside `solution.py`
 2. Run `python run.py` to check that your solution works
+
+Your solution should look something like:
+![Solution](sample_solution.png)
