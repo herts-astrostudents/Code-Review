@@ -21,5 +21,5 @@ def simulate_light_curves(observation_times, lag, mean_continuum_flux, line_flux
 
 
     ### your solution here
-
+    ### instead of next line
     return [np.ones_like(observation_times.value) * i * u.mJy for i in range(3)]
