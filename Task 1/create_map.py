@@ -23,6 +23,7 @@ def make_gaussian_star(shape, position, flux, width=None):
 
 
 def generate_map(shape, nstars, noise=0, real_stars=False, allow_blended=False, allow_bordered=False, min_snr=3, max_snr=10, max_width=None, seed=0):
+	np.random.seed(seed)
 	array = np.random.normal(0, noise, shape)
 	fluxes = np.random.uniform(min_snr*noise+0.01, max_snr*noise+0.01, nstars)
 	if max_width is None:
@@ -54,7 +55,7 @@ def generate_map(shape, nstars, noise=0, real_stars=False, allow_blended=False, 
 	return array, (positions, fluxes, widths)
 
 
-def plot_map(array, positions=None, **kwargs):
+def 	plot_map(array, positions=None, **kwargs):
 	plt.imshow(array)
 	plt.colorbar()
 	plot_positions(positions, **kwargs)
