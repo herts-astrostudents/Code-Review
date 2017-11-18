@@ -25,7 +25,7 @@ and the Gaussian Process parameters scaling $\tau$ and amplitude $\sigma$.
       much it varies).
     * The next step in the light curve is $x_{i+1} = \alpha x_i + \epsilon_i$,
       where $\alpha = e^{-|t_{i+1} - t{i}| / \tau}$,
-    * and $\epsilon$ is the gaussian deviation with variance $= \sigma^2 (1 - e^{2|t_{i+1} - t{i}| / \tau})$
+    * and $\epsilon$ is the gaussian deviation with variance $= \sigma^2 (1 - e^{-2|t_{i+1} - t{i}| / \tau})$
     * This light curve will then be varying around 0.
     * Add on the mean continuum flux
     * This is the central continuum light curve
