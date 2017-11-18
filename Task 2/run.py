@@ -7,8 +7,8 @@ from solution import simulate_light_curves
 
 
 observation_times = np.linspace(0, 500, 200) * u.day  # 200 observations over 500 days
-lag = 100*u.day
-mean_flux = 10*u.mJy
+lag = 100 * u.day
+mean_flux = 10 * u.mJy
 continuum, line, continuum_and_line = simulate_light_curves(observation_times,
                                                             lag=lag,
                                                             mean_continuum_flux=mean_flux,
