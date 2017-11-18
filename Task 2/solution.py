@@ -3,6 +3,7 @@ import numpy as np
 from astropy import units as u
 
 
+
 def random_walk(mean, times, amplitude, scale):
     deltas = times[1:] - times[:-1]
     deviate_variance = amplitude**2 * (1 - np.exp(-2 * deltas / scale))
@@ -40,13 +41,9 @@ def simulate_light_curves(observation_times, lag, mean_continuum_flux, line_flux
     mn, mx = min(observation_times) - lag, max(observation_times) + lag
     times = np.arange(mn.value, mx.value, step) * mx.unit
 
-    print(times)
-
     _continuum_curve = random_walk(mean_continuum_flux.value, times.value, gp_amplitude, gp_scale)
-    # _line_curve = np.interp(times, times-lag, _continuum_curve * line_flux_ratio)
-
     continuum_curve = np.interp(observation_times, times, _continuum_curve)
-    line_curve = np.interp(observation_times, times-lag, _continuum_curve)
+    line_curve = np.interp(observation_times, times+lag, _continuum_curve * line_flux_ratio)
     line_and_continuum_curve = continuum_curve + line_curve
     
     return continuum_curve * funit, line_curve * funit, line_and_continuum_curve * funit
