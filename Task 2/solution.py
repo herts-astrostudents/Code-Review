@@ -9,7 +9,7 @@ def random_walk(mean, times, amplitude, scale):
     deviate_variance = amplitude**2 * (1 - np.exp(-2 * deltas / scale))
     deviate = np.random.normal(0, np.sqrt(deviate_variance))  # truncate
     deviate = np.insert(deviate, 0, 0)
-    alpha_ar = np.exp(-deltas / scale)
+    alpha_ar = np.exp(-2 * deltas / scale)
     
     for i, d in enumerate(deltas[1:], 1):
         deviate[i] += deviate[i-1] * alpha_ar[i]
