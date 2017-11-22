@@ -5,16 +5,13 @@ from astropy import units as u
 
 
 def random_walk(mean, times, amplitude, scale):
-    deltas = times[1:] - times[:-1]
-    deviate_variance = amplitude**2 * (1 - np.exp(-2 * deltas / scale))
-    deviate = np.random.normal(0, np.sqrt(deviate_variance))  # truncate
-    deviate = np.insert(deviate, 0, 0)
-    alpha_ar = np.exp(-2 * deltas / scale)
-    
-    for i, d in enumerate(deltas[1:], 1):
-        deviate[i] += deviate[i-1] * alpha_ar[i]
+    deltas = np.insert(times[1:] - times[:-1], 0, 0)
+    deviate_variance = amplitude**2 * (1 - np.exp(-2 * np.abs(deltas / scale)))
+    deviate = np.random.normal(0, np.sqrt(deviate_variance))
+    alpha_ar = np.exp(-2 * np.abs(deltas / scale))
+    for i, d in enumerate(deviate[:-1]):
+        deviate[i+1] += d * alpha_ar[i]
     return deviate + mean
-
 
 
 def simulate_light_curves(observation_times, lag, mean_continuum_flux, line_flux_ratio, log_gp_scale, log_gp_amplitude,
@@ -28,11 +25,9 @@ def simulate_light_curves(observation_times, lag, mean_continuum_flux, line_flux
     :param log_gp_scale:  The scale of the gaussian process: float
     :param log_gp_amplitude: The amplitude of the gaussian process: float
     :param random_seed: int
-    :return:
+    :return tuple(astropy.Quantity): measured continuum, emission line, combined emission line and continuum (3 arrays)
     """
-
     np.random.seed(random_seed)  # makes output deterministic
-
     funit = mean_continuum_flux.unit
     gp_amplitude = 10**log_gp_amplitude
     gp_scale = 10**log_gp_scale
@@ -41,9 +36,8 @@ def simulate_light_curves(observation_times, lag, mean_continuum_flux, line_flux
     mn, mx = min(observation_times) - lag, max(observation_times) + lag
     times = np.arange(mn.value, mx.value, step) * mx.unit
 
-    _continuum_curve = random_walk(mean_continuum_flux.value, times.value, gp_amplitude, gp_scale)
-    continuum_curve = np.interp(observation_times, times, _continuum_curve)
-    line_curve = np.interp(observation_times, times+lag, _continuum_curve * line_flux_ratio)
-    line_and_continuum_curve = continuum_curve + line_curve
-    
-    return continuum_curve * funit, line_curve * funit, line_and_continuum_curve * funit
+    finely_sampled_continuum = random_walk(mean_continuum_flux.value, times.value, gp_amplitude, gp_scale)
+    observed_continuum = np.interp(observation_times, times, finely_sampled_continuum) * funit
+    observed_line = np.interp(observation_times, times+lag, finely_sampled_continuum * line_flux_ratio) * funit
+    observed_line_and_continuum = observed_continuum + observed_line
+    return observed_continuum, observed_line, observed_line_and_continuum
