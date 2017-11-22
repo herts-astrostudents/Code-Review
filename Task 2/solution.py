@@ -8,7 +8,7 @@ def random_walk(mean, times, amplitude, scale):
     deltas = np.insert(times[1:] - times[:-1], 0, 0)
     deviate_variance = amplitude**2 * (1 - np.exp(-2 * np.abs(deltas / scale)))
     deviate = np.random.normal(0, np.sqrt(deviate_variance))
-    alpha_ar = np.exp(-2 * np.abs(deltas / scale))
+    alpha_ar = np.exp(-np.abs(deltas / scale))
     for i, d in enumerate(deviate[:-1]):
         deviate[i+1] += d * alpha_ar[i]
     return deviate + mean
