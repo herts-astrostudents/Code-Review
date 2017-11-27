@@ -6,12 +6,14 @@ from astropy import units as u
 
 def random_walk(mean, times, amplitude, scale):
     deltas = np.insert(times[1:] - times[:-1], 0, 0)
-    deviate_variance = amplitude**2 * (1 - np.exp(-2 * np.abs(deltas / scale)))
-    deviate = np.random.normal(0, np.sqrt(deviate_variance))
+    epsilon_variance = amplitude**2 * (1 - np.exp(-2 * np.abs(deltas / scale)))
+    epsilon = np.random.normal(0, np.sqrt(epsilon_variance))
     alpha_ar = np.exp(-np.abs(deltas / scale))
-    for i, d in enumerate(deviate[:-1]):
-        deviate[i+1] += d * alpha_ar[i]
-    return deviate + mean
+
+    for i, e in enumerate(epsilon[:-1]):
+        epsilon[i+1] += e * alpha_ar[i]
+
+    return epsilon + mean
 
 
 def simulate_light_curves(observation_times, lag, mean_continuum_flux, line_flux_ratio, log_gp_scale, log_gp_amplitude,
@@ -37,7 +39,9 @@ def simulate_light_curves(observation_times, lag, mean_continuum_flux, line_flux
     times = np.arange(mn.value, mx.value, step) * mx.unit
 
     finely_sampled_continuum = random_walk(mean_continuum_flux.value, times.value, gp_amplitude, gp_scale)
+
     observed_continuum = np.interp(observation_times, times, finely_sampled_continuum) * funit
+    
     observed_line = np.interp(observation_times, times+lag, finely_sampled_continuum * line_flux_ratio) * funit
     observed_line_and_continuum = observed_continuum + observed_line
     return observed_continuum, observed_line, observed_line_and_continuum
