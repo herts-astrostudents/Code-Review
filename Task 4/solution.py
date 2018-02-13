@@ -15,9 +15,11 @@ def solution(data, sigma=5):
     sigma_col = 'is_{}_sigma'.format(sigma)
     data[sigma_col] = True  # use logical_and later to combine line SNR conditions
     for colname in data.colnames:
-        if ('FLUX' in colname) and ('ERR' not in colname):
+        try:
             data[colname+'_SNR'] = data[colname] / data[colname+'_ERR']
             data[sigma_col] &= data[colname+'_SNR'] > sigma
+        except KeyError:
+            pass
 
     # move along the x direction to eventually cover all space
     data['BPT_class'] = 'Composite'  # easier to predefine everything as Composite and then change them
