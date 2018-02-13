@@ -47,6 +47,8 @@ The function `solution` should return an `astropy.table.Table` with the followin
 
 When you run `python run.py`, it will try to plot a BPT diagram based on what you have written in `solution.py`. Have a look at the code to see what it's doing.
 
+*Don't change `run.py`, that is cheating!*
+
 Be aware, these classification lines have asymptotes and so they go to infinity at a certain point. Take this into account.
 
 
