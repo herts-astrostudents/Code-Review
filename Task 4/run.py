@@ -2,7 +2,7 @@ from astropy.table import Table, unique
 from astropy.io import fits
 import numpy as np
 import matplotlib.pyplot as plt
-from utilities import log_OIII_Hb_NII, log_OIII_Hb_NII_upper, log_OIII_Hb_NII_lower
+from utilities import log_OIII_Hb_NII, log_OIII_Hb_NII_upper, log_OIII_Hb_NII_lower, ASYMPTOTE, WIDTH
 from solution import solution
 
 
@@ -15,9 +15,9 @@ def plot_bpt(table):
 	ylim = plt.ylim()
 	xlim = plt.xlim()
 	x = np.linspace(*xlim, num=1000)
-	plt.plot(x[x < 0.47], log_OIII_Hb_NII(x[x < 0.47]), 'k-')
-	plt.plot(x[x < 0.47+0.1], log_OIII_Hb_NII_upper(x[x < 0.47+0.1]), 'k--')
-	plt.plot(x[x < 0.47-0.1], log_OIII_Hb_NII_lower(x[x < 0.47-0.1]), 'k--')
+	plt.plot(x[x < 0.47], log_OIII_Hb_NII(x[x < ASYMPTOTE]), 'k-')
+	plt.plot(x[x < 0.47+0.1], log_OIII_Hb_NII_upper(x[x < ASYMPTOTE+WIDTH]), 'k--')
+	plt.plot(x[x < 0.47-0.1], log_OIII_Hb_NII_lower(x[x < ASYMPTOTE-WIDTH]), 'k--')
 	plt.xlim(xlim)
 	plt.ylim(ylim)
 	plt.xlabel(r'$log_{10}[NII / H\alpha]$')
