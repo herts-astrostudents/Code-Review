@@ -1,0 +1,24 @@
+Image Stacking
+
+
+The image file here is a SCUBA-2 CLS survey field, and is photometric data in the submillimetre. The resolution is relatively low, so noise is an issue, meaning that many individual sources are not detected above a reasonable signal-to-noise ratio. However, if we know some prior positions where we expect to find sources (for example from a higher resolution survey in another wavelength) the sources can be "stacked". This means cutting out "postage stamp" images of all of the sources, and taking some kind of average of the pixel values. This way you average out the noise, and can get an average source detection.
+
+The task therefore is...
+
+FROM PIXEL COORDINATES:
+
+1) Cut out 50 * 50 pixel square "postage stamps" around each of the source positions in the image.
+
+2) Create a median stacked image from all of the postage stamps: take the median pixel value at each position in the image.
+
+Your function (median_stacker in solution.py) should take the fits image file img_field.fits and an array of x, y pixel coordinates pixel_coords.txt, and return a 50 * 50 pixel stacked image array, and the x,y pixel coordinate array.
+
+
+FROM RA, Dec COORDINATES:
+
+1) Cut out 50 * 50 pixel square "postage stamps" around each of the source positions in the image. (this will mean converting from RA and Dec to pixel values; the world coordinate system functions in astropy can do this for you using the WCS information which is in the fits header)
+
+2) Create a median stacked image from all of the postage stamps: take the median pixel value at each position in the image.
+
+Your function  should take the fits image file img_field.fits and an array of RA, Dec coordinates sky_coords.txt, and return a 50 * 50 pixel stacked image array, and the x,y pixel coordinate array. BE AWARE: sky_coords.txt contains coordinates that are outside of the image field - you need to exclude these sources from the stack!
+
