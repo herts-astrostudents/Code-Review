@@ -12,4 +12,4 @@ The way we're going to this is by having everyone make fork of this repository a
 1. Do the task
 1. Commit & push 
 1. Submit a pull request to `herts-astrostudents` (if you want to show your work)(your request will be merged into the original task as a solution)
-1. Sync your fork with the updated version after the code review session to get the next task
+1. Sync your fork with the updated version after the code review session to get the next task [link](https://help.github.com/articles/syncing-a-fork/)
