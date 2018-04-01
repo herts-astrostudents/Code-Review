@@ -116,9 +116,12 @@ case $1 in
 				fi
 				require_clean &&
 				( git checkout develop || (echo "make a develop branch first" && exit 1) ) &&
+				echo "Updating develop branch" &&
+				git fetch upstream && 
+				git merge upstream/develop && 
 				(git checkout -b "task-$3" || exit 1) &&
-				( (mkdir "task-$3" && cd "task-$3")  || exit 1) && 
-				echo "Now make the task in the task-$3 folder. Use ./code-review.sh develop publish-task $3 to finish & publish it to github"
+				( (mkdir "Task $3" && cd "Task $3")  || exit 1) && 
+				echo "Now make the task in the Task $3 folder. Use ./code-review.sh develop publish-task $3 to finish & publish it to github"
 				exit 0
 				;;
 			'publish-task' )
