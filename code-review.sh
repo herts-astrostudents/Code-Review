@@ -115,13 +115,30 @@ case $1 in
 					exit 1
 				fi
 				require_clean &&
-				( git checkout develop || (echo "make a develop branch first" && exit 1) ) &&
-				echo "Updating develop branch" &&
+				git checkout master &&
 				git fetch upstream && 
-				git merge upstream/develop && 
-				(git checkout -b "task-$3" || exit 1) &&
+				git merge upstream/master &&
+				(git branch "task-$3" || exit 1) &&
+				(git checkout -b "$3-solution" || exit 1) &&
 				( (mkdir "Task $3" && cd "Task $3")  || exit 1) && 
-				echo "Now make the task in the Task $3 folder. Use ./code-review.sh develop publish-task $3 to finish & publish it to github"
+				echo "Now make the task (including the solution) in the Task $3 folder." &&
+				echo "Use ./code-review.sh develop finalise-task $3 once you're done." &&
+				exit 0
+				;;
+			'finalise-task' )
+				if [[ $# -ne 3 ]]; then
+					echo "incorrect usage"
+					echo "USAGE: ./code-review.sh develop finalise-task <TASK-NAME>"
+					exit 1
+				fi
+				require_clean &&
+				cd $TOPLEVEL &&
+				git checkout "task-$3" &&
+				git merge --squash "$3-solution" &&
+				echo "Now:" &&
+				echo "   1. Remove your solution to the task from the task folder" &&
+				echo "   2. Commit the changes"  && 
+				echo "   3. Use ./code-review.sh develop publish-task $3 to publish it to github" &&
 				exit 0
 				;;
 			'publish-task' )
@@ -130,11 +147,28 @@ case $1 in
 					echo "USAGE: ./code-review.sh develop publish-task <TASK-NAME>"
 					exit 1
 				fi
+				read -p "This will publish your TASK (with no solution) to github. Continue? [enter]"
 				require_clean &&
 				cd "$TOPLEVEL" &&
 				(git push --set-upstream origin "task-$3" || exit 1) &&
+				echo "Now open a pull request against $UPSTREAM on github for task-$3" &&
+				echo "Use ./code-review.sh develop publish-solution $3 to publish the SOLUTION to this task later" &&
+				exit 0
+				;;
+			'publish-solution' )
+				if [[ $# -ne 3 ]]; then
+					echo "incorrect usage"
+					echo "USAGE: ./code-review.sh develop publish-task <TASK-NAME>"
+					exit 1
+				fi
+				read -p "This will publish your SOLUTION ($3-solution) for task-$3 to github. Continue? [enter]"
+				require_clean &&
+				cd "$TOPLEVEL" &&
+				git checkout "$3-solution" && git rebase "task-$3" &&
+				git checkout solutions &&
+				git merge "$3-solution" -m "finish $3-solution" &&
+				(git push --set-upstream origin solutions || exit 1) &&
 				echo "Now open a pull request against $UPSTREAM on github for task-$3"
-				echo "To make further changes to this task do git checkout task-$3"
 				exit 0
 				;;
 		esac
