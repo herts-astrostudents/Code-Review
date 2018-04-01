@@ -41,9 +41,9 @@ The goal is to have everyone push their own repo to their own branch on the upst
 
 The git tree should have branches:
 
-* Master (Do not edit directly. Should only be merged with!)
-* Develop (only for working on maintenance or merging tasks others have written)
-* solution-<person1> (only for the solutions of person 1)
-* solution-<person2> (only for the solutions of person 2)
+* *Master* (Do not edit directly. Should only be merged with!)
+* *Develop* (only for working on maintenance or merging tasks others have written)
+* *solution-person1* (only for the solutions of person 1)
+* *solution-person2* (only for the solutions of person 2)
 * etc...
 
