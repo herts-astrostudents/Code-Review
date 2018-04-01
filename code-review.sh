@@ -120,7 +120,7 @@ case $1 in
 				git fetch upstream && 
 				git merge upstream/develop && 
 				(git checkout -b "task-$3" || exit 1) &&
-				( (mkdir "task-$3" && cd "Task $3")  || exit 1) && 
+				( (mkdir "Task $3" && cd "Task $3")  || exit 1) && 
 				echo "Now make the task in the Task $3 folder. Use ./code-review.sh develop publish-task $3 to finish & publish it to github"
 				exit 0
 				;;
