@@ -38,6 +38,7 @@ case $1 in
 		(git branch solutions || echo "solutions branch already exists") &&
 		git checkout master &&
 		echo "Linked to upstream repository, created solutions branch." &&
+		echo "Consider adding this script to your path in your .tcshrc/.basrhc file for easy access when working" &&
 		echo "Now use ./code-review.sh start-task to start the latest task" &&
 		exit 0) ||
 		echo "Failed: have you already done first-time-setup?" && exit 0
