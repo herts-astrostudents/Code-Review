@@ -23,8 +23,8 @@ The goal is to have a separate branch for you task and then merge it with the de
 1. `./code-review.sh develop create-task <NAME>`
 2. Write the task in the task folder along with the solution!
 3. `./code-review.sh develop begin-finalise-task <NAME>`
-4. Remove the solution but don't touch the task!
-5. 3. `./code-review.sh develop end-finalise-task <NAME>`
+4. Remove the solution so only the task remains!
+5. `./code-review.sh develop end-finalise-task <NAME>`
 5. `./code-review.sh develop publish-task <NAME>`
 6. Submit a pull request to `herts-astrostudents` for the branch `task-<NAME>` on github and the maintainer will merge it.
 7.  `./code-review.sh develop publish-solution <NAME>` to publish your solution like everyone else
