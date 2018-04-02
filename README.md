@@ -8,7 +8,7 @@ The way we're going to this is by having everyone make fork of this repository a
 ## Doing the tasks
 
 0. First time setup `./code-review.sh first-time-setup herts-astrostudents` (run this only once ever)
-1. `./code-review.sh start-next-task <NAME>`
+1. `./code-review.sh start-task <NAME>`
 2. Do the task, using git to track progress if you want
 3. `./code-review.sh finish-task <NAME>`
 4. "Submit a pull request" to `herts-astrostudents` on github (pull requests are how people submit improvements for inspection on github)
