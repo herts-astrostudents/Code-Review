@@ -7,7 +7,7 @@ The way we're going to this is by having everyone make fork of this repository a
 
 ## Doing the tasks
 
-0. First time setup `./code-review.sh first-time-setup` (run this only once ever)
+0. First time setup `./code-review.sh first-time-setup herts-astrostudents` (run this only once ever)
 1. `./code-review.sh start-next-task <NAME>`
 2. Do the task, using git to track progress if you want
 3. `./code-review.sh finish-task <NAME>`
@@ -22,10 +22,14 @@ The goal is to have a separate branch for you task and then merge it with the de
 
 1. `./code-review.sh develop create-task <NAME>`
 2. Write the task in the task folder along with the solution!
-3. `./code-review.sh develop finalise-task <NAME>`
+3. `./code-review.sh develop begin-finalise-task <NAME>`
 4. Remove the solution but don't touch the task!
+5. 3. `./code-review.sh develop end-finalise-task <NAME>`
 5. `./code-review.sh develop publish-task <NAME>`
-6. Submit a pull request to `herts-astrostudents` on github and the maintainer will merge it.
+6. Submit a pull request to `herts-astrostudents` for the branch `task-<NAME>` on github and the maintainer will merge it.
+7.  `./code-review.sh develop publish-solution <NAME>` to publish your solution like everyone else
+8. Submit a pull request to `herts-astrostudents` for the branch `solutions` on github and the maintainer will merge it.
+9. Go to the code review session
 
 
 ## Repository Maintenance (admin)

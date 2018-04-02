@@ -1,13 +1,11 @@
 #! /bin/bash
 
 REPONAME="$(basename -s .git `git config --get remote.origin.url`)"
-UPSTREAM_ORGANISATION="herts-astrostudents"
 if [[ "$(git config --get remote.origin.url)" != "git@"* ]]; then
 	PREFIX="https://github.com/"
 else
 	PREFIX="git@github.com:"
 fi
-UPSTREAM="$PREFIX$UPSTREAM_ORGANISATION/$REPONAME.git"
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 TOPLEVEL="$(git rev-parse --show-toplevel)"
 
@@ -23,9 +21,18 @@ require_clean(){
 
 case $1 in
 	'first-time-setup' )
+		if [[ $# -ne 2 ]]; then
+			echo "incorrect usage"
+			echo "USAGE: ./code-review.sh first-time-setup <UPSTREAM_ORGANISATION>"
+			exit 1
+		fi
 		git config push.default simple
-		(git remote add upstream "$UPSTREAM" &&
-		git checkout master &&
+		UPSTREAM_ORGANISATION=$2
+		UPSTREAM="$PREFIX$UPSTREAM_ORGANISATION/$REPONAME.git"
+		
+		git remote add upstream "$UPSTREAM"
+		require_clean &&
+		(git checkout master &&
 		git fetch upstream && 
 		git merge upstream/master &&
 		(git branch solutions || echo "solutions branch already exists") &&
@@ -51,14 +58,14 @@ case $1 in
 			echo "USAGE: ./code-review.sh view-solution <USERNAME> [<BRANCH>=solutions]"
 			exit 1
 		fi
-		require_clean
+		require_clean &&
 		echo 'adding repository and checking out'
 		git remote add "$USERNAME" "$PREFIX$USERNAME/$REPONAME.git"
 		git fetch "$USERNAME" "$BRANCH" || exit 1
 		(git checkout -b "$USERNAME-$BRANCH" "$USERNAME/$BRANCH") || (git checkout "$USERNAME-$BRANCH" && git reset --hard FETCH_HEAD && git clean -df)
 		exit 0
 		;;
-	'start-next-task' )
+	'start-task' )
 		if [[ $# -ne 2 ]]; then
 			echo "incorrect usage"
 			echo "USAGE: ./code-review.sh start-task <TASK-NAME>"
@@ -69,8 +76,9 @@ case $1 in
 		git fetch upstream &&
 		git checkout master && 
 		git merge upstream/master &&
-		git checkout -b "$2-solution" &&
-		echo "Now on branch $2-solution, do your work here and then run ./code-review.sh finish-task to commit and upload"
+		git checkout -b "$2-solution" && 
+		cd "Task $2" &&
+		echo "Now on branch $2-solution, do your work in the task folder and then run ./code-review.sh finish-task to commit and upload"
 		exit 0
 		;;
 	'finish-task' )
@@ -102,8 +110,8 @@ case $1 in
 		git checkout master && 
 		git merge upstream/master &&
 		git rebase master "$2-solution" &&
-		echo "Update succeeded, continue as you were. You may notice some changes from upstream!") || (echo "update failed...")
-		git checkout "$CURRENT_BRANCH"
+		echo "Update succeeded, continue as you were. You may notice some changes from upstream!") || (echo "update failed...") &&
+		git checkout "$CURRENT_BRANCH" &&
 		exit 0
 		;;
 	'develop' )
@@ -118,29 +126,45 @@ case $1 in
 				git checkout master &&
 				git fetch upstream && 
 				git merge upstream/master &&
-				(git branch "task-$3" || exit 1) &&
-				(git checkout -b "$3-solution" || exit 1) &&
-				( (mkdir "Task $3" && cd "Task $3")  || exit 1) && 
+				git branch "task-$3" &&
+				git checkout -b "$3-solution" &&
+				mkdir "Task $3" && cd "Task $3"  && 
 				echo "Now make the task (including the solution) in the Task $3 folder." &&
-				echo "Use ./code-review.sh develop finalise-task $3 once you're done." &&
+				echo "Commit and then use ./code-review.sh develop begin-finalise-task $3 once you're done." &&
 				exit 0
 				;;
-			'finalise-task' )
+			'begin-finalise-task' )
 				if [[ $# -ne 3 ]]; then
 					echo "incorrect usage"
-					echo "USAGE: ./code-review.sh develop finalise-task <TASK-NAME>"
+					echo "USAGE: ./code-review.sh develop begin-finalise-task <TASK-NAME>"
 					exit 1
 				fi
 				require_clean &&
-				cd $TOPLEVEL &&
+				cd "$TOPLEVEL" &&
 				git checkout "task-$3" &&
 				git merge --squash "$3-solution" &&
 				echo "Now:" &&
 				echo "   1. Remove your solution to the task from the task folder" &&
 				echo "   2. Commit the changes"  && 
-				echo "   3. Use ./code-review.sh develop publish-task $3 to publish it to github" &&
+				echo "   3. Use ./code-review.sh develop end-finalise-task $3 to finish" &&
 				exit 0
 				;;
+			'end-finalise-task' )
+				if [[ $# -ne 3 ]]; then
+					echo "incorrect usage"
+					echo "USAGE: ./code-review.sh develop end-finalise-task <TASK-NAME>"
+					exit 1
+				fi
+				require_clean &&
+				cd "$TOPLEVEL" &&
+				git checkout "$3-solution" && git rebase "task-$3" &&
+				git checkout solutions &&
+				git merge "$3-solution" -m "finish $3-solution" &&
+				echo "Task $3 has been finalised, now on solutions branch" &&
+				echo "Now use ./code-review.sh develop publish-task $3 to publish to github'" &&
+				echo "If you find that you need to change the task/solution, use ./code-review.sh develop edit-task $3" &&
+				exit 0
+			        ;;
 			'publish-task' )
 				if [[ $# -ne 3 ]]; then
 					echo "incorrect usage"
@@ -164,17 +188,31 @@ case $1 in
 				read -p "This will publish your SOLUTION ($3-solution) for task-$3 to github. Continue? [enter]"
 				require_clean &&
 				cd "$TOPLEVEL" &&
-				git checkout "$3-solution" && git rebase "task-$3" &&
-				git checkout solutions &&
-				git merge "$3-solution" -m "finish $3-solution" &&
 				(git push --set-upstream origin solutions || exit 1) &&
 				echo "Now open a pull request against $UPSTREAM on github for task-$3"
 				exit 0
 				;;
+			'edit-task' )
+				if [[ $# -ne 3 ]]; then
+					echo "incorrect usage"
+					echo "USAGE: ./code-review.sh develop edit-task <TASK-NAME>"
+					exit 1
+				fi
+				read -p "This will repoen edits on task $3 and its solution. Continue? [enter]"
+				require_clean &&
+				cd "$TOPLEVEL" &&
+				git checkout "$3-solution" &&
+				echo "Now perform your edits to the task & solution." &&
+				echo "Run ./code-review.sh develop begin-finalise-task $3 when done" &&
+				echo "Warning: if you've published this task, people may be working on it. If you delete template files that were" &&
+				echo "previously published, they may lose their work" &&
+				exit 0
 		esac
 
 esac
 
 echo "incorrect usage"
-echo "USAGE: ./code-review.sh <first-time-setup|view|start-next-task|finish-task|update-task|develop>"
+echo "USAGE: ./code-review.sh <first-time-setup|view|start-task|finish-task|update-task>"
+echo "       or"
+echo "       ./code-review.sh develop <create-task|finalise-task|publish-task|publish-solution|edit-task>"
 exit 1
