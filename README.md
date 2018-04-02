@@ -18,7 +18,10 @@ To checkout other people's pull requests during the session, run `git pr <pull r
 
 ## Writing a task for the group
 For anyone who wants to write a task for the group:
-The goal is to have a separate branch for you task and then merge it with the development branch.
+The goal is to have a separate branch for you task and then merge it with the master branch.
+Each task should have a `readme.md` to explain what to to and a script to run to test/produce the desired output.
+i.e. it should contain `task.py` and `solution.py`.
+We are also working exclusively in python and miscellaneous command line applications. No IDL!
 
 1. `./code-review.sh develop create-task <NAME>`
 2. Write the task in the task folder along with the solution!
