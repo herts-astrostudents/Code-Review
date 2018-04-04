@@ -7,13 +7,17 @@ The way we're going to this is by having everyone make fork of this repository a
 
 ## Doing the tasks
 
+Install the `code-review.sh script`
+
+    cd ~ && git clone https://github.com/herts-astrostudents/code-review.sh && cd code-review.sh && ./code-review.sh install
+
 0. First time setup `./code-review.sh first-time-setup herts-astrostudents` (run this only once ever)
-1. `./code-review.sh start-task <NAME>`
+1. `code-review.sh start-task <NAME>`
 2. Do the task, using git to track progress if you want
-3. `./code-review.sh finish-task <NAME>`
+3. `code-review.sh finish-task <NAME>`
 4. "Submit a pull request" to `herts-astrostudents` on github (pull requests are how people submit improvements for inspection on github)
 
-To checkout other people's pull requests during the session, run `git pr <pull request number> upstream` or use `./code-review.sh view <USERNAME>` to directly view their solution branch without a pull request.
+To checkout other people's pull requests during the session, run `git pr <pull request number> upstream` or use `code-review.sh view <USERNAME>` to directly view their solution branch without a pull request.
 
 
 ## Writing a task for the group
@@ -23,14 +27,14 @@ Each task should have a `readme.md` to explain what to to and a script to run to
 i.e. it should contain `task.py` and `solution.py`.
 We are also working exclusively in python and miscellaneous command line applications. No IDL!
 
-1. `./code-review.sh develop create-task <NAME>`
+1. `code-review.sh develop create-task <NAME>`
 2. Write the task in the task folder along with the solution!
-3. `./code-review.sh develop begin-finalise-task <NAME>`
+3. `code-review.sh develop begin-finalise-task <NAME>`
 4. Remove the solution so only the task remains!
-5. `./code-review.sh develop end-finalise-task <NAME>`
-5. `./code-review.sh develop publish-task <NAME>`
+5. `code-review.sh develop end-finalise-task <NAME>`
+5. `code-review.sh develop publish-task <NAME>`
 6. Submit a pull request to `herts-astrostudents` for the branch `task-<NAME>` on github and the maintainer will merge it.
-7.  `./code-review.sh develop publish-solution <NAME>` to publish your solution like everyone else
+7.  `code-review.sh develop publish-solution <NAME>` to publish your solution like everyone else
 8. Submit a pull request to `herts-astrostudents` for the branch `solutions` on github and the maintainer will merge it.
 9. Go to the code review session
 
