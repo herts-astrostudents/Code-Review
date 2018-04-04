@@ -7,9 +7,9 @@ The way we're going to this is by having everyone make fork of this repository a
 
 ## Doing the tasks
 
-Install the `code-review.sh script`
+Install the `code-review.sh script` in your preferred directory:
 
-    cd ~ && git clone https://github.com/herts-astrostudents/code-review.sh && cd code-review.sh && ./code-review.sh install
+    git clone https://github.com/herts-astrostudents/code-review.sh && cd code-review.sh && chmod +x code-review.sh && ./code-review.sh install
 
 0. First time setup `./code-review.sh first-time-setup herts-astrostudents` (run this only once ever)
 1. `code-review.sh start-task <NAME>`
