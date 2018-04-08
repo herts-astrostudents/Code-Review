@@ -11,7 +11,7 @@ Install the `code-review.sh script` in your preferred directory:
 
     git clone https://github.com/herts-astrostudents/code-review.sh && cd code-review.sh && chmod +x code-review.sh && ./code-review.sh install
 
-0. First time setup `./code-review.sh first-time-setup herts-astrostudents` (run this only once ever)
+0. First time setup `code-review.sh first-time-setup herts-astrostudents` (run this only once ever)
 1. `code-review.sh start-task <NAME>`
 2. Do the task, using git to track progress if you want
 3. `code-review.sh finish-task <NAME>`
