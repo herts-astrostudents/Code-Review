@@ -31,7 +31,7 @@ Install [bash-git-prompt](https://github.com/magicmonty/bash-git-prompt) to make
 
 
 ## Task Flow:
-Install the `code-review.sh script` in your preferred directory:
+Install the `code-review.sh script` in your preferred directory (not the same as the code-review directory!!):
 
     git clone https://github.com/herts-astrostudents/code-review.sh && cd code-review.sh && chmod +x code-review.sh && ./code-review.sh install
 
