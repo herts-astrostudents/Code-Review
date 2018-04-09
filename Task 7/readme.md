@@ -13,4 +13,6 @@ If you see something that you want to copy in matplotlib, google/stackoverflow i
 
 Try to get as close as possible, but in the end it doesn't matter if it is not exactly the same!
 
+Write your solution only within the `solution.py` file!
+
 <img src="original.png" alt="original plot"/>
