@@ -5,13 +5,14 @@ The way we're going to this is by having everyone make fork of this repository a
 
 ## git configuration
 ### Setup git and github for a new machine
-git config --global user.name "Firstname Lastname"
-git config --global user.email "mygithubemailaddress@gmail.com"
-git config --global core.editor nano 
-for windows: 
-    git config --global core.autocrlf true 
-for all others:
-    git config --global core.autocrlf input
+
+    git config --global user.name "Firstname Lastname"
+    git config --global user.email "mygithubemailaddress@gmail.com"
+    git config --global core.editor nano 
+    for windows: 
+        git config --global core.autocrlf true 
+    for all others:
+        git config --global core.autocrlf input
 
 
 ### Student privileges
