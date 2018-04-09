@@ -9,4 +9,5 @@ fig, ax = plt.subplots()
 # Fetch and plot the Vega spectrum
 
 
+
 plt.show()
