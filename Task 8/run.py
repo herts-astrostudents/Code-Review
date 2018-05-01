@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from solution0 import bootstrap_this
+from solution import bootstrap_this
 
 def get_hist(x, bins=100):
 	hist, bins = np.histogram(x, bins=bins)
