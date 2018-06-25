@@ -3,9 +3,9 @@ from astropy import units as u
 
 
 class Spectrum(object):
-    def __init__(self, wavelengths, flux_density):
+    def __init__(self, wavelengths, flux_density_wavelength):
         self.wavelengths = wavelengths
-        self.flux_density = flux_density
+        self.flux_density_wavelength = flux_density_wavelength
 
 
     @classmethod
@@ -18,9 +18,9 @@ class Spectrum(object):
         """
         hdus = fits.open(filename)
         data = hdus[1].data
-        flux_density = data['flux'] * 1e-17 * u.erg/u.s/u.cm/u.cm/u.Angstrom
+        flux_density_wavelength = data['flux'] * 1e-17 * u.erg/u.s/u.cm/u.cm/u.Angstrom
         wavelengths = (10**data['loglam']) * u.Angstrom
-        return Spectrum(wavelengths, flux_density)
+        return Spectrum(wavelengths, flux_density_wavelength)
 
 
     def __repr__(self):

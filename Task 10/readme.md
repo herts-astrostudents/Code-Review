@@ -8,7 +8,7 @@ Colour is sometimes useful in separating different types of galaxy. like the BPT
 
 The task is to classify the given spectrum as QSO or star using the SDSS(g-r vs u-g) colour-colour diagram.
 
-The task is to finish up the included code which allows a spectrum to be plotted onto a colour-colour diagram. There isn't actually much to do other than fill in the blanks!
+The task is to finish up the included code which allows a spectrum to be plotted onto a colour-colour diagram. There isn't actually much to do other than fill in the blanks where you see `NotImplementedError`!
 
 The script `run.py` will read in the mystery spectrum and three filter curve files.
 

@@ -22,24 +22,34 @@ class Filter(object):
         self.name = name
 
 
-    def propagate_flux_density(self, spectrum):
+    def propagate_ABmagnitude(self, spectrum):
         """
         Calculates the quantity:
-        integral( wavelength * flux_density * response ) / integral( wavelength * response )
+        flux_density = integral(flux_density * response / wavelength, dwavelength) / integral(response / wavelength, dwavelength)
         over the filter's wavelength range
-        This is the flux density over the filter
+        This is the flux density you would see in using this filter when you look at the object that this spectrum is emitted from.
         """
+
+        # 1. Interpolate the filter response to the spectrum wavelengths using np.interp
+        # 2. Convert the spectrum flux to Janskys using the relation `wavelength * flux_density_wavelength = frequency * flux_density_frequency`
+        # 3. Calculate the integrals above using simpsons rule to get the average flux density 
+        # 4. Get the flux_density (in Janskys), with its unit (`*u.Jy`)
+        # 5. Return the AB magnitude
+
+
         select = spectrum.wavelengths > self.wavelengths.min()
         select &= spectrum.wavelengths < self.wavelengths.max()
-        flux_density = spectrum.flux_density[select]
+        flux_density_wavelength = spectrum.flux_density_wavelength[select]
         wavelength = spectrum.wavelengths[select]
         frequency = c / wavelength
         interpolated_response = np.interp(wavelength.to(self.wavelengths.unit), self.wavelengths, self.response)
         
-        flux_density_jansky = (flux_density * wavelength / frequency).to(u.Jy)
+        flux_density_jansky = (flux_density_wavelength * wavelength / frequency).to(u.Jy)
+
         top = simpsons_rule_integration(interpolated_response * flux_density_jansky / wavelength, wavelength)
         bottom = simpsons_rule_integration(interpolated_response / wavelength, wavelength)
-        return top / bottom * flux_density_jansky.unit
+        average_flux_density_jansky = top / bottom * flux_density_jansky.unit
+        return flux2ABMag(average_flux_density_jansky)
 
 
     def __call__(self, spectrum):
@@ -49,7 +59,7 @@ class Filter(object):
         >>> my_filter = Filter(...)
         >>> my_flux = my_filter(my_spectrum)
         """
-        return self.propagate_flux_density(spectrum)
+        return self.propagate_ABmagnitude(spectrum)
 
 
     def __sub__(self, other):
@@ -97,9 +107,9 @@ class Colour(object):
 
 
     def __call__(self, spectrum):
-        flux1 = self.filters[0](spectrum)
-        flux2 = self.filters[1](spectrum)
-        return flux2ABMag(flux1) - flux2ABMag(flux2)
+        mag1 = self.filters[0](spectrum)
+        mag2 = self.filters[1](spectrum)
+        return mag1 - mag2
 
 
     def __repr__(self):
