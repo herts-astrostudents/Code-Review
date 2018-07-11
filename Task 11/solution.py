@@ -17,7 +17,7 @@ def k_means(n_groups, X_data):
     while not finished:
         distances_to_centroids = np.sqrt(np.sum((group_centroids[:, None, :] - X_data[None, ...])**2, axis=-1))
         groups = np.argmin(distances_to_centroids, axis=0)
-        previous_group_centroids = group_centroids.copy()
+        previous_group_centroids = group_centroids
         group_centroids = np.asarray([np.mean(X_data[groups == i], axis=0) for i in range(n_groups)])
         finished = np.allclose(previous_group_centroids, group_centroids)
 
