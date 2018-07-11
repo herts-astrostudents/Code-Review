@@ -11,6 +11,7 @@ def k_means(n_groups, X_data):
         groups: np.array: group assignment for each data point, shape = (n_points,)
     '''
     n_points, n_dimensions = X_data.shape
+    assert n_groups <= n_points, "Cannot create more clusters than there are points"
     group_centroids = X_data[np.random.choice(n_points, n_groups)]  # initialise centroids
     finished = False
 
