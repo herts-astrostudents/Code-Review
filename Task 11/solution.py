@@ -10,5 +10,15 @@ def k_means(n_groups, X_data):
         group_centroids: np.array: mean of each cluster, shape = (n_groups, n_dimensions)
         groups: np.array: group assignment for each data point, shape = (n_points,)
     '''
+    n_points, n_dimensions = X_data.shape
+    group_centroids = X_data[np.random.choice(n_points, n_groups)]  # initialise centroids
+    finished = False
+
+    while not finished:
+        distances_to_centroids = np.sqrt(np.sum((group_centroids[:, None, :] - X_data[None, ...])**2, axis=-1))
+        groups = np.argmin(distances_to_centroids, axis=0)
+        previous_group_centroids = group_centroids.copy()
+        group_centroids = np.asarray([np.mean(X_data[groups == i], axis=0) for i in range(n_groups)])
+        finished = np.allclose(previous_group_centroids, group_centroids)
 
     return group_centroids, groups
