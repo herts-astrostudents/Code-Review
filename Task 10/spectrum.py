@@ -22,8 +22,7 @@ class Spectrum(object):
         wavelengths = (10**data['loglam']) * u.Angstrom
         
         # Make a Spectrum object and return it!
-
-        raise NotImplementedError("You need to return a `Spectrum` object here!")
+        return Spectrum(wavelengths, flux_density_wavelength)
 
 
     def __repr__(self):

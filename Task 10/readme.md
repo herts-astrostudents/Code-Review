@@ -1,4 +1,4 @@
-# Task 10: Useful Objects with Spectrophotometry
+# Task 10: Useful Objects with Spectra
 
 ## Colour-Colour diagnostic diagrams
 Colour is sometimes useful in separating different types of galaxy. like the BPT emission line diagrams, Colour-Colour diagrams can separate star-forming galaxies, quasars, and stars using their optical colours.

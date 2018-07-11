@@ -41,8 +41,14 @@ class Filter(object):
         select &= spectrum.wavelengths < self.wavelengths.max()
         flux_density_wavelength = spectrum.flux_density_wavelength[select]
         wavelength = spectrum.wavelengths[select]
+        frequency = c / wavelength
+        interpolated_response = np.interp(wavelength.to(self.wavelengths.unit), self.wavelengths, self.response)
+        
+        flux_density_jansky = (flux_density_wavelength * wavelength / frequency).to(u.Jy)
 
-        raise NotImplementedError("You need to get the `average_flux_density_jansky` that the spectrum would have in this filter. Look at the comments!")
+        top = simpsons_rule_integration(interpolated_response * flux_density_jansky / wavelength, wavelength)
+        bottom = simpsons_rule_integration(interpolated_response / wavelength, wavelength)
+        average_flux_density_jansky = top / bottom * flux_density_jansky.unit
         return flux2ABMag(average_flux_density_jansky)
 
 
@@ -51,7 +57,7 @@ class Filter(object):
         A call to the filter object would logically mean propgate a spectrum 
         >>> my_spectrum = Spectrum(...)
         >>> my_filter = Filter(...)
-        >>> my_mag = my_filter(my_spectrum)
+        >>> my_flux = my_filter(my_spectrum)
         """
         return self.propagate_ABmagnitude(spectrum)
 
@@ -65,9 +71,8 @@ class Filter(object):
         >>> colour = filter_u - filter_g  # This gives us a `Colour` of `u - g`
         Since astronomical colours are magnitude differences we can say that one filter minus another is 
         equivalent to a colour
-        So this method must return a colour
         """
-        raise NotImplementedError("Subtracting a filter from a filter must return a Colour object!")
+        return Colour(self, other)
 
 
     def __repr__(self):
