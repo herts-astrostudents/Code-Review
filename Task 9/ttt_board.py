@@ -1,7 +1,6 @@
 import numpy as np
 
 class TicTacToeBoard:
-
     def __init__(self, size=3):
         '''
         Class constructor.
@@ -23,7 +22,6 @@ class TicTacToeBoard:
         x, y = np.where(self.numpad == value)
         self.arr[x[0], y[0]] = player
     
-
     def show(self):
         '''
         Show the board in the terminal
@@ -36,7 +34,6 @@ class TicTacToeBoard:
 
             print '\n',
             print '-' * (self.size*4+1), '\n',
-
 
     def get_winner(self):
         '''
@@ -67,7 +64,6 @@ class TicTacToeBoard:
         
         return 0
 
-
     def board_filled(self):
         '''
         Are all tiles filled.
@@ -75,7 +71,6 @@ class TicTacToeBoard:
         '''
         return np.all(self.arr > 0)
             
-
     def game_over(self):
         '''
         Are we done yet?
