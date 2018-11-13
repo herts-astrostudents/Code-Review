@@ -21,7 +21,11 @@ def nearest_neighbour(X, target_X):
     Find the index of the nearest point in X to the target position
     """
 
-    # do your thing here
+    diffs = X - target_X
+    print diffs.shape
+    dists = np.sqrt(diffs[:,0]**2 + diffs[:,1]**2)
+    print dists.shape
+    closest_index = np.argmin(dists)
 
     return closest_index
 
