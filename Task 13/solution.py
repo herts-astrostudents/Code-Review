@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+from scipy import spatial
 
 # Load ra and dec
 X = np.loadtxt('ra_dec.csv')
@@ -20,8 +21,22 @@ def nearest_neighbour(X, target_X):
     """
     Find the index of the nearest point in X to the target position
     """
+    # ------------------------
+    # Scipy KD tree solution:
+    # ------------------------
+    # data = spatial.KDTree(X)
+    # closest_index = data.query(target_X)[1]
 
-    # do your thing here
+    # ------------------------
+    # Linear solution:
+    # ------------------------
+
+    min_dist = 99999
+    for i in range(len(X)):
+    	dist = np.sqrt((target_X[0] - X[i,0])**2 + (target_X[1]-X[i,1])**2)
+    	if dist < min_dist:
+    		closest_index = i
+    		min_dist = dist
 
     return closest_index
 
