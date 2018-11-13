@@ -20,8 +20,13 @@ def nearest_neighbour(X, target_X):
     """
     Find the index of the nearest point in X to the target position
     """
-
-    # do your thing here
+    RA = target_X[0]
+    DEC = target_X[1]
+    distance = []
+    for i in range(len(X)):
+        distance.append(np.sqrt( (X[i][0] - RA)**2 + (X[i][1] - DEC)**2 ))
+    minimum = min(distance)
+    closest_index = distance.index(minimum)
 
     return closest_index
 
