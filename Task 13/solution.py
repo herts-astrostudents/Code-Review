@@ -15,15 +15,23 @@ ax.set_ylabel('Dec / degrees')
 ax.set_xlabel('RA / degrees')
 ax.plot(target_X[0], target_X[1], 'xr', markersize=20)
 
+def nearest_neighbour_linear(X, target_X):
+    distance = lambda a, b: np.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
+    closest_index = np.argmin( [distance(x, target_X) for x in X] )
+    return closest_index
+
+def nearest_neighbour_ktree(X, target_X):
+    from scipy import spatial
+    tree = spatial.KDTree(X)
+    distance, index = tree.query(np.array(target_X))
+    
+    return index
 
 def nearest_neighbour(X, target_X):
     """
     Find the index of the nearest point in X to the target position
     """
-
-    # do your thing here
-
-    return closest_index
+    return nearest_neighbour_ktree(X, target_X)
 
 start = time.time()
 # Find the index of the nearest point
