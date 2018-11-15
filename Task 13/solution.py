@@ -20,6 +20,7 @@ def nearest_neighbour(X, target_X):
     """
     Find the index of the nearest point in X to the target position
     """
+    
     R = np.sqrt(np.sum((X - target_X)**2, axis=1))
     sorted = np.argsort(R)
     return (sorted[0])
