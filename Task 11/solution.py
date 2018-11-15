@@ -10,6 +10,7 @@ def k_means(n_groups, X_data):
         group_centroids: np.array: mean of each cluster, shape = (n_groups, n_dimensions)
         groups: np.array: group assignment for each data point, shape = (n_points,)
     '''
+    
     # Initialise by picking a k random data points to be the initial centroids (where k = n_groups)
     pick = np.random.choice(np.arange(0, len(X_data)), size=n_groups, replace=False)
     group_centroids = X_data[pick]
