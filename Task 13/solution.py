@@ -1,11 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+from astropy.coordinates import SkyCoord 
+from astropy import units as u
 
 # Load ra and dec
 X = np.loadtxt('ra_dec.csv')
 
-# Target ra and dec for nearest neighbour search
+# Target ra and dec for nearest neighour search
 target_X = np.array([34.3509123, -5.328912])
 
 # Plot positions
@@ -17,13 +19,10 @@ ax.plot(target_X[0], target_X[1], 'xr', markersize=20)
 
 
 def nearest_neighbour(X, target_X):
-    """
-    Find the index of the nearest point in X to the target position
-    """
-
-    # do your thing here
-
-    return closest_index
+        c = SkyCoord(ra=target_X[0]*u.degree,dec =target_X[1]*u.degree)
+        catalog = SkyCoord(ra=X[:,0]*u.degree, dec=X[:,1]*u.degree)
+        closest_index, d2d, d3d = c.match_to_catalog_sky(catalog)
+        return closest_index
 
 start = time.time()
 # Find the index of the nearest point
