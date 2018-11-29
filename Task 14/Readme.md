@@ -21,5 +21,9 @@ You need to read in those text files, aggregate them together in some meaningful
 
 `solution.py` is where you write your functions. I've started you off with some helpful functions already.
 
+I advise that you use the python package `xarray` which is built for this kind of thing! Read the introductory documentation and you should be fine.
+
+However, you can also use numpy functions and get the same result, so do what makes you happy.
+
 Have fun!
 
