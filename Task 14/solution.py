@@ -84,7 +84,7 @@ def plot_data(dataset, **kwargs):
     """
     
     cmap = kwargs["cmap"]
-    tlim = np.nanmax(np.abs(np.array(dataset["t"])))
+    tlim = np.nanmax(np.abs(dataset["t"]))
     
     #mp = Basemap(projection='merc',llcrnrlat=-80,urcrnrlat=80,llcrnrlon=-180,urcrnrlon=180,lat_ts=20,resolution='c')
     #mp = Basemap(projection='ortho',lon_0=-105,lat_0=40,resolution='l')
