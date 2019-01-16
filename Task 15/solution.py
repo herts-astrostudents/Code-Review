@@ -14,17 +14,5 @@ def estimate_psf(image, nstars=10, size=20):
 
     returns a 2D array with the PSF image
     '''
-    mean, median, std = sigma_clipped_stats(image, sigma=3.0, iters=5)
-    daofind = DAOStarFinder(fwhm=3.0, threshold=9.*std)
-    sources = daofind(image - median)
-
-    top_flux_indices = sources.argsort(keys="peak")
-    sources = sources[top_flux_indices[::-1][0:nstars]]
-    
-    stamps = [ 
-        Cutout2D(image, position=(int(round(s["xcentroid"])), int(round(s["ycentroid"]))), size=size, mode="partial", fill_value=median).data
-        for s in sources
-        ]
-
-    psf = np.median(stamps, axis=0)
+    # do stuff here
     return psf
