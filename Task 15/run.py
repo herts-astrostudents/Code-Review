@@ -23,7 +23,7 @@ if __name__ == '__main__':
     images = get_images(real=real_images)
     
     print("Measuring PSFs...")
-    psfs = [(image[0], estimate_psf(image[1], nstars=30, size=25)) for image in images]
+    psfs = [(image[0], estimate_psf(image[1], nstars=70, size=25)) for image in images]
 
     print("Plotting...")
     for i in range(len(images)):

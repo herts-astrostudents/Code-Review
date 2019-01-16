@@ -20,14 +20,6 @@ def estimate_psf(image, nstars=10, size=20):
 
     top_flux_indices = sources.argsort(keys="peak")
     sources = sources[top_flux_indices[::-1][0:nstars]]
-
-    edge_distance = 0
-    sources = sources[ 
-        (sources["xcentroid"] > edge_distance) & \
-        (sources["xcentroid"] < image.shape[0] - edge_distance) & \
-        (sources["ycentroid"] > edge_distance) & \
-        (sources["ycentroid"] < image.shape[1] - edge_distance)
-    ]
     
     stamps = [ 
         Cutout2D(image, position=(int(round(s["xcentroid"])), int(round(s["ycentroid"]))), size=size, mode="partial", fill_value=median).data

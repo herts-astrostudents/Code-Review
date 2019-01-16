@@ -36,7 +36,7 @@ def plot_psf(image, psf, colormap="gray"):
     '''
     f, ax = plt.subplots(2, 2, figsize=(8, 8))
     
-    ax[0, 1].imshow(image[1], cmap=colormap)
+    ax[0, 1].imshow(image[1], cmap=colormap, vmin=np.min(image[1]), vmax=np.median(image[1])*5)
     ax[0, 1].set_title("{} image".format(image[0]))
     ax[0, 1].set_xlabel("x, px")
     ax[0, 1].set_ylabel("y, px")
