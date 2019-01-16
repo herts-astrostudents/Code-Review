@@ -9,4 +9,4 @@ There are many ways to detect stars in an image, we did it in [Task 1](https://g
 By default it downloads images from [Bayfordbury server](https://observatory.herts.ac.uk/telescopes/imagesearch.php), but you can set `real_images = False` in `run.py` if you want to use synthetic image with Gaussian stars (code recycled from the Task 1, thanks Shaun).
 
 The result will look like this:
-<img src="result.png" alt=""/>
+<img src="result.png" alt="Sample result"/>
