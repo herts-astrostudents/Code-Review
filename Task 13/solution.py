@@ -19,6 +19,7 @@ ax.plot(target_X[0], target_X[1], 'xr', markersize=20)
 def nearest_neighbour(X, target_X):
     """
     Find the index of the nearest point in X to the target position
+    Linear search
     """
     RA = target_X[0]
     DEC = target_X[1]
