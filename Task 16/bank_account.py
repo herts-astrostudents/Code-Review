@@ -1,4 +1,3 @@
-
 class BasicBankAccount(object):
     '''
     Basic bank account.
@@ -9,6 +8,7 @@ class BasicBankAccount(object):
         # initialise the object
         # this function is called when you create the object by running:
         # account = BasicBankAccount(100)
+        self.initial_balance = initial_balance
         pass
     
 
@@ -16,6 +16,7 @@ class BasicBankAccount(object):
         '''
         Deposit some amount to current balance
         '''
+        self.initial_balance += amount
         pass
     
 
@@ -23,6 +24,7 @@ class BasicBankAccount(object):
         '''
         Withdraw some amount from current balance
         '''
+        self.initial_balance -= amount
         pass
 
 
@@ -45,7 +47,10 @@ class BetterBankAccount(BasicBankAccount):
         Deposit some amount to current balance.
         Must be positive.
         '''
-        pass
+        if amount > 0:
+            self.initial_balance += amount
+        else:
+            raise ValueError("amount must be positive")
 
 
     def withdraw(self, amount):
@@ -53,11 +58,20 @@ class BetterBankAccount(BasicBankAccount):
         Withdraw some amount from current balance.
         Must be positive, must not exceed current balance.
         '''
-        pass
-    
+        if amount > 0:
+            if amount <= self.initial_balance:
+                self.initial_balance -= amount
+            else:
+                raise ValueError("insufficient funds")
+        else:
+            raise ValueError("amount must be positive")
+
+                  
+      
 
     def history(self, n=5):
         '''
         Print last N entries in the transaction history.
         '''
+        #print(account.withdraw)
         pass
