@@ -114,7 +114,6 @@ if __name__ == "__main__":
 
     # PLOT
     plt.figure(figsize=(8, 5))
-
     plt.title("Mstar={}, Mplanet={}, a={}, e={}, w={}, v0={}, noise_sigma={}".format(
             s.Mstar,
             s.Mplanet,
@@ -127,10 +126,10 @@ if __name__ == "__main__":
 
     if s.plot_line:
         times_model, rvs_model = sim.getRVCurve()
-        plt.plot(times_model, rvs_model, "r-")
+        plt.plot(times_model, rvs_model, linestyle="-", color="#f62a00", alpha=0.7)
 
-    times, rvs = sim.getRVCurve(addNoise=s.noise_sigma, sigma=s.noise_sigma)
-    plt.plot(times, rvs, "k+")
+    times, rvs = sim.getRVCurve(addNoise=True, sigma=s.noise_sigma)
+    plt.scatter(times, rvs, marker=".", color="#1e656d", alpha=0.7)
 
     plt.xlim(min(times), max(times))
 
