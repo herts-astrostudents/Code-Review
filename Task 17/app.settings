@@ -1,0 +1,21 @@
+# Exoplanet simulation settings
+# run as `python simulation.py <settings file>`
+# or `python simulation.py` to use the app.settings in the same directory
+# Alternatively, `./simulation.sh <settings file>`
+
+
+Mstar       = 1      # mass of the star, Msun
+Mplanet     = 10     # mass of the planet, Mearth
+a           = 0.3    # semi-major axis of planet's orbit, AU
+e           = 0.2    # eccentricity of the orbit
+w           = 0.0    # argument of periastron, radians
+v0          = 0      # barycentric velocity, m/s
+peritime    = 0      # perihelion time
+
+time_from   = 320    # days
+time_to     = 420    # days
+time_step   = 0.2    # also days
+
+noise_sigma = 1.0    # m/s
+
+plot_line   = True   # plot the orbit with no noise added
